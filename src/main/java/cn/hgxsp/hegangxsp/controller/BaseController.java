@@ -26,7 +26,7 @@ public class BaseController {
     public static final String USER_REDIS_SESSION = "user-redis-session" ;
 
 
-    /*
+    /**
      *DESC: 想redis中添加用户的token
      *@author hou.linan
      *@date:  2018/8/22 16:21
