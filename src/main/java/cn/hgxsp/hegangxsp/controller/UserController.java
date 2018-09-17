@@ -259,7 +259,7 @@ public class UserController extends BaseController {
         }
 
         User user = userService.findUserById(userId);
-        System.out.println("userId == " + userId);   
+        System.out.println("userId == " + userId);    
         if (ObjectUtils.isEmpty(user)) {
             return WXJSONResult.errorMsg("该用户不存在");
         }
