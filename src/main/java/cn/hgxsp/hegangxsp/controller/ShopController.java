@@ -41,7 +41,7 @@ public class ShopController extends BaseController {
     /**
      * DESC:查询店铺名称是否重复 ，是否可用
      *
-     * @author hou.linan
+     * @author hou.linangetShopByShopId
      * @date: 2018/8/30 9:36
      * @param: [shopName]
      * @return: cn.hgxsp.hgxsp.utils.WXJSONResult
@@ -181,7 +181,7 @@ public class ShopController extends BaseController {
     *@return:  cn.hgxsp.hgxsp.utils.WXJSONResult
     */
     @GetMapping("/getShopByShopId")
-    @Cacheable(cacheNames = "shop" , key = "#shopId" , unless = "#result.status != 200")
+//    @Cacheable(cacheNames = "shop" , key = "#shopId" , unless = "#result.status != 200")
     @ApiImplicitParam(name = "shopId", value = "店铺Id", required = true, dataType = "String", paramType = "query", defaultValue = "1809056F7KM61968")
     @ApiOperation(value = "通过店铺ID获取店铺信息", notes = "通过店铺ID获取店铺信息接口")
     public WXJSONResult getShopByShopId(String shopId) throws Exception{
