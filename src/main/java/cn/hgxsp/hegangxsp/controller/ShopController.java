@@ -80,7 +80,6 @@ public class ShopController extends BaseController {
         if (StringUtils.isEmpty(userId)) {
             return WXJSONResult.errorMsg("传入的用户ID为空");
         }
-        System.out.println(userId + " === userId");
         User currUser = userService.findUserById(userId);
 
         if (StringUtils.isEmpty(currUser)) {
