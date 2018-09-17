@@ -56,7 +56,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean queryUserNameIsExist(String userName) {
-        System.out.println(userName);
         return userRepository.findUserByUserName(userName) == null ? false : true;
 
     }
@@ -93,7 +92,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public WXJSONResult countUserHasShop(String userId) {
         long result = shopRepository.countByShopBossId(userId);
-        System.out.println(result);
         return result > 0 ? WXJSONResult.ok() : WXJSONResult.errorMsg("userNotHasShop");
     }
 
