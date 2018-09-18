@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.persistence.Id;
+import java.io.Serializable;
 
 /**
  * DESC：商品目录VO类，里面只有商品封面，商品ID 和商品名称的返回值
@@ -14,7 +15,7 @@ import javax.persistence.Id;
  */
 @Data
 @ApiModel(value = "商品目录VO类，里面只有商品封面，商品ID 和商品名称的返回值" , description = "商品目录VO类，里面只有商品封面，商品ID 和商品名称的返回值")
-public class ProductListVO {
+public class ProductListVO  implements Serializable {
 
     @Id
     @ApiModelProperty(value = "商品主键ID")

@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.persistence.Id;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -16,7 +17,7 @@ import java.util.Date;
  */
 @Data
 @ApiModel(value = "用户返给前端实体类" , description = "用户实体对象")
-public class UserVO  {
+public class UserVO  implements Serializable {
 
     @Id
     @ApiModelProperty(value = "用户主键ID" , hidden = true)

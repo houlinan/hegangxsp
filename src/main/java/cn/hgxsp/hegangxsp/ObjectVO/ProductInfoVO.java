@@ -10,6 +10,7 @@ import lombok.Data;
 import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -20,7 +21,7 @@ import java.util.List;
  * Time : 14:40
  */
 @Data
-public class ProductInfoVO  {
+public class ProductInfoVO  implements Serializable {
 
     @Id
     @ApiModelProperty(value = "商品主键ID" , name = "id" )
