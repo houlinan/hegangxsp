@@ -61,9 +61,9 @@ public class ProductPictureController extends BaseController {
             return WXJSONResult.errorMsg("您没有传入图片，请重新上传");
         }
 
-        String uploadPathDB = "";
-        String shopBossName = "";
-        String shopName = "" ;
+        String uploadPathDB ;
+        String shopBossName ;
+        String shopName  ;
 
         if ("pro".equals(fromType)) {
             Product product = productService.findProductById(ObjectId);
