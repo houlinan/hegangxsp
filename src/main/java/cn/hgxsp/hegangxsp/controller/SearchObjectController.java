@@ -221,6 +221,23 @@ public class SearchObjectController extends BaseController {
     }
 
 
+    @PostMapping("/getAllShopToPage")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "pageSize", value = "每页显示数目", required = false, defaultValue = "15", paramType = "query"),
+            @ApiImplicitParam(name = "pageIndex", value = "第几页", required = true, defaultValue = "1", paramType = "query"),
+            @ApiImplicitParam(name = "searchValue", value = "模糊查询关键字", required = false , defaultValue = "5", paramType = "query")
+    })
+    @ApiOperation(value = "获取全部店铺列表", notes = "获取所有店铺列表，并包含分页")
+    public WXJSONResult getAllShopToPage(@RequestParam(value = "pageSize" ,defaultValue = "5") Integer pageSize ,
+                                         @RequestParam(value ="pageIndex") Integer pageIndex,
+                                         @RequestParam(value = "searchValue" ,required = false)String searchValue){
+
+
+
+
+        return WXJSONResult.ok( searchService.findAllShop(pageIndex , pageSize , searchValue));
+    }
+
 
 
 }

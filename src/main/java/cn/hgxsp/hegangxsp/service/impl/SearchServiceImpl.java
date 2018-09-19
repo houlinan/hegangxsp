@@ -2,9 +2,11 @@ package cn.hgxsp.hegangxsp.service.impl;
 
 
 import cn.hgxsp.hegangxsp.ObjectVO.ProductListVO;
+import cn.hgxsp.hegangxsp.ObjectVO.ShopVO;
 import cn.hgxsp.hegangxsp.entity.Product;
 import cn.hgxsp.hegangxsp.entity.Shop;
 import cn.hgxsp.hegangxsp.entity.jpaRepository.ProductRepository;
+import cn.hgxsp.hegangxsp.entity.jpaRepository.ShopRepository;
 import cn.hgxsp.hegangxsp.service.SearchService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -15,6 +17,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -23,8 +26,10 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
+
+import static org.hibernate.internal.util.collections.ArrayHelper.toList;
 
 /**
  * DESC：搜索service层实现类
@@ -42,6 +47,9 @@ public class SearchServiceImpl implements SearchService {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private ShopRepository shopRepository;
 
 
     private PageRequest page = null;
@@ -107,10 +115,31 @@ public class SearchServiceImpl implements SearchService {
             return null;
         };
 
-        Page<Product> products = productRepository.findAll(specification, page) ;
+        Page<Product> products = productRepository.findAll(specification, page);
 
 
         return pageProduct2PageProductListVo(products);
+    }
+
+    @Override
+    public Page<ShopVO> findAllShop(Integer index, Integer pageSize, String searchValue) {
+        Sort sort = new Sort(Sort.Direction.DESC, "createTime");
+        PageRequest page = new PageRequest(index, pageSize, sort);
+//        if(StringUtils.isEmpty(searchValue)){
+//            return pageShop2PageShoplistVO(shopRepository.findAll(page));
+//        }
+//        Specification<Product> specification = (Specification<Shop>) (Root<Shop> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) -> {
+//            List<Shop> list = new ArrayList<>();
+//            list.add(criteriaBuilder.like(root.get("shopName").as(String.class), "%" + searchValue + "%"));
+//
+//            Predicate[] p = new Predicate[list.size()];
+//            criteriaQuery.where(list.toArray(p));
+//
+//            return null;
+//        };
+//        return  pageShop2PageShoplistVO(shopRepository.findAll(specification ,page) );
+        return null;
+
     }
 
 
@@ -120,7 +149,6 @@ public class SearchServiceImpl implements SearchService {
         Query nativeQuery = entityManager.createNativeQuery(sql);
         List<String> resultList = nativeQuery.getResultList();
         return resultList;
-//        return null ;
     }
 
     /**
@@ -145,6 +173,49 @@ public class SearchServiceImpl implements SearchService {
         }
 
         return new PageImpl<>(productListVOS, page, result.getTotalElements());
+    }
+
+    private Page<ShopVO> pageShop2PageShoplistVO(Page<Shop> result) {
+
+        PageRequest page = new PageRequest(result.getPageable().getPageNumber(), result.getPageable().getPageSize());
+
+        List<ShopVO> shopVOSResult = result.getContent().stream()
+                .map(shop -> (ShopVO)Object2ClassObject(shop,ShopVO.class))
+                .filter(e -> e != null)
+                .collect(Collectors.toList());
+
+        return new PageImpl<>(shopVOSResult, page, result.getTotalElements());
+
+    }
+
+
+    private static  Object Object2ClassObject(Object object, Class currClass) {
+        try {
+            Object result = currClass.forName(currClass.getName()).newInstance();
+            BeanUtils.copyProperties(object, result);
+            return result;
+        }catch (Exception e){
+
+        }
+        return null;
+    }
+
+
+    public static void main(String[] args){
+
+        List<Shop> list = new ArrayList<>();
+        for(int a = 0 ; a < 10 ;a ++ ){
+            Shop shop = new Shop();
+            shop.setId(UUID.randomUUID().toString());
+            shop.setShopName("店铺 + " +a);
+            shop.setCreateTime(new Date());
+            shop.setShopFace("d:\\sasda");
+            shop.setActived(1);
+            shop.setShopDesc("dsadsadas");
+            list.add(shop);
+        }
+        list.stream().forEach(e -> System.out.println(Object2ClassObject(e , ShopVO.class).toString()));
+
     }
 
 
