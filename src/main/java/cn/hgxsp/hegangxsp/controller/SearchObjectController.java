@@ -3,10 +3,8 @@ package cn.hgxsp.hegangxsp.controller;
 import cn.hgxsp.hegangxsp.ObjectVO.ProductInfoVO;
 import cn.hgxsp.hegangxsp.ObjectVO.ProductListVO;
 import cn.hgxsp.hegangxsp.ObjectVO.ShopVO;
-import cn.hgxsp.hegangxsp.entity.Product;
-import cn.hgxsp.hegangxsp.entity.ProductPicture;
-import cn.hgxsp.hegangxsp.entity.Shop;
-import cn.hgxsp.hegangxsp.entity.User;
+import cn.hgxsp.hegangxsp.entity.*;
+import cn.hgxsp.hegangxsp.entity.jpaRepository.ObjectSearchRepository;
 import cn.hgxsp.hegangxsp.service.ProductPictureService;
 import cn.hgxsp.hegangxsp.service.ProductService;
 import cn.hgxsp.hegangxsp.service.SearchService;
@@ -53,6 +51,9 @@ public class SearchObjectController extends BaseController {
 
     @Autowired
     private ProductService productService ;
+
+    @Autowired
+    private ObjectSearchRepository objectSearchRepository ;
 
     /**
      * DESC: 获取所有热搜关键词， 默认前十
@@ -241,5 +242,13 @@ public class SearchObjectController extends BaseController {
     }
 
 
-
+    @GetMapping("/addSearchContent")
+    @ApiImplicitParam(name = "content" , value = "搜索内容" , required = true ,paramType = "query")
+    @ApiOperation(notes = "将搜索字段添加进数据库的接口" , value = "将搜索字段添加进数据库")
+    public void addSearchContent(String content) {
+        if(StringUtils.isEmpty(content)) return ;
+        ObjectSearch objectSearch = new ObjectSearch() ;
+        objectSearch.setContent(content);
+        objectSearchRepository.save(objectSearch) ;
+    }
 }
