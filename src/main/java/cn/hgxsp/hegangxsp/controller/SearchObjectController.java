@@ -2,6 +2,7 @@ package cn.hgxsp.hegangxsp.controller;
 
 import cn.hgxsp.hegangxsp.ObjectVO.ProductInfoVO;
 import cn.hgxsp.hegangxsp.ObjectVO.ProductListVO;
+import cn.hgxsp.hegangxsp.ObjectVO.ShopVO;
 import cn.hgxsp.hegangxsp.entity.Product;
 import cn.hgxsp.hegangxsp.entity.ProductPicture;
 import cn.hgxsp.hegangxsp.entity.Shop;
@@ -10,6 +11,7 @@ import cn.hgxsp.hegangxsp.service.ProductPictureService;
 import cn.hgxsp.hegangxsp.service.ProductService;
 import cn.hgxsp.hegangxsp.service.SearchService;
 import cn.hgxsp.hegangxsp.service.ShopService;
+import cn.hgxsp.hegangxsp.utils.ObjectConvertVO;
 import cn.hgxsp.hegangxsp.utils.WXJSONResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -233,9 +235,9 @@ public class SearchObjectController extends BaseController {
                                          @RequestParam(value = "searchValue" ,required = false)String searchValue){
 
 
+        Page<Shop> allShop = searchService.findAllShop(pageIndex, pageSize, searchValue);
 
-
-        return WXJSONResult.ok( searchService.findAllShop(pageIndex , pageSize , searchValue));
+        return WXJSONResult.ok( ObjectConvertVO.pageShop2PageShoplistVO(allShop));
     }
 
 

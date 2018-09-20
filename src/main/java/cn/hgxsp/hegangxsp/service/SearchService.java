@@ -75,6 +75,6 @@ public interface SearchService {
     *@param:  [index, pageSize, searchValue]
     *@return:  org.springframework.data.domain.Page<cn.hgxsp.hegangxsp.ObjectVO.ShopVO>
     */
-    Page<ShopVO> findAllShop(Integer index, Integer pageSize,  String searchValue) ;
+    Page<Shop> findAllShop(Integer index, Integer pageSize,  String searchValue) ;
 
 }

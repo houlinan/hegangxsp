@@ -1,8 +1,10 @@
 package cn.hgxsp.hegangxsp.entity.jpaRepository;
 
 
+import cn.hgxsp.hegangxsp.entity.Product;
 import cn.hgxsp.hegangxsp.entity.Shop;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,7 +16,7 @@ import java.util.List;
  * Time : 15:57
  */
 @Repository
-public interface ShopRepository extends JpaRepository<Shop, String> {
+public interface ShopRepository extends JpaRepository<Shop, String> , JpaSpecificationExecutor<Shop> {
 
     /*
     *DESC:查询该店铺名称的数量
