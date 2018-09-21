@@ -37,4 +37,13 @@ public interface HistoryService {
     *@return:  void
     */
     void deleteAllHistory(String userId) ;
+
+    /**
+    *DESC: 更新一个历史的浏览时间
+    *@author hou.linan
+    *@date:  2018/9/21 10:47
+    *@param:  [userId, objectId, type]
+    *@return:  void
+    */
+    void updateHistroy(History history);
 }

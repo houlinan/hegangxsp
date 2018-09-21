@@ -33,10 +33,10 @@ public class History implements Serializable {
     @Column(name ="type")
     @ApiModelProperty(value = "搜索类型 1：商品、2：店铺" , name = "type" , example = "1" )
     private int type ;
-
-    @Column(name = "objectid")
-    @ApiModelProperty(value = "对象id" , name = "objectId" , example = "180918A012B1M140")
-    private String objectId ;
+//
+//    @Column(name = "objectid")
+//    @ApiModelProperty(value = "对象id" , name = "objectId" , example = "180918A012B1M140")
+//    private String objectId ;
 
     @ApiModelProperty(value = "店铺" , name = "shop" , example = "15156saddsa181123")
     @ManyToOne
