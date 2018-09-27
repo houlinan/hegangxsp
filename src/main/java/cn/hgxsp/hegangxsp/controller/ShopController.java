@@ -134,7 +134,7 @@ public class ShopController extends BaseController {
 
         //保存文件的命名空间
 
-        String uploadPathDB = "/" + currShopBossId + "/" + ShopId + "/ShopFace";
+        String uploadPathDB = "\\" + currShopBossId + "\\" + ShopId + "\\ShopFace";
         log.info("文件大小为：{}" + files.length);
         uploadPathDB = UploadUtils.uploadPic(files[0], uploadPathDB , "来源店铺:"+shop.getShopName());
 

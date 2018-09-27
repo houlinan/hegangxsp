@@ -264,7 +264,7 @@ public class UserController extends BaseController {
         }
 
 
-        String uploadPathDB = "/" + userId + "/face";
+        String uploadPathDB = "\\" + userId + "\\face";
 
         //上传图片
         uploadPathDB = UploadUtils.uploadPic(files[0], uploadPathDB, "@" + user.getUserName());

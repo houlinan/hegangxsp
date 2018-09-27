@@ -66,10 +66,10 @@ public class UploadUtils {
                     //TODO : 这里更改了长度 ，应该没问题， 如果有问题再改回来吧
                     fileName = fileName.substring(40, fileName.length());
                     //设置文件最终路径
-                    String finalFilePath = fileSpace + uploadPathDB + "/" + fileName;
+                    String finalFilePath = fileSpace + uploadPathDB + "\\" + fileName;
                     log.info("finalFilePath ==" + finalFilePath);
                     //数据库文件路径
-                    uploadPathDB += ("/" + fileName);
+                    uploadPathDB += ("\\" + fileName);
                     log.info("uploadPathDB ==" + uploadPathDB);
                     //处理文件
                     File faceFile = new File(finalFilePath);

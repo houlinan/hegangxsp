@@ -165,7 +165,7 @@ public class ProductController extends BaseController {
         }
 
 
-        String uploadPathDB = "/" + userId + "/" + shopId + "/ProductFace";
+        String uploadPathDB = "\\" + userId + "\\" + shopId + "\\ProductFace";
 
         //上传图片
         uploadPathDB = UploadUtils.uploadPic(files[0], uploadPathDB, "店铺：" + shop.getShopName());
