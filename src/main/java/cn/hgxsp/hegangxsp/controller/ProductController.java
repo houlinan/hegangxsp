@@ -56,7 +56,6 @@ public class ProductController extends BaseController {
                                       @RequestParam("shopId") String shopId,
                                       @RequestParam("userId") String userId) {
 
-
         if (StringUtils.isEmpty(shopId)) {
             return WXJSONResult.errorMsg("获取后台的店铺信息为空，请先创建店铺");
         }
@@ -70,6 +69,8 @@ public class ProductController extends BaseController {
             return WXJSONResult.errorMsg("并没有找到该店铺信息，请先创建店铺");
         }
         User user = userService.findUserById(userId);
+
+        log.info("用户尝试创建一个店铺，用户姓名为：【{}】" , user.getUserName());
         if (ObjectUtils.isEmpty(user)) {
             return WXJSONResult.errorMsg("并没有找到您的用户信息，请先登陆");
         }
@@ -164,7 +165,7 @@ public class ProductController extends BaseController {
         }
 
 
-        String uploadPathDB = "/" + userId + "/" + shopId + "/ProductFace";
+        String uploadPathDB = "\\" + userId + "\\" + shopId + "\\ProductFace";
 
         //上传图片
         uploadPathDB = UploadUtils.uploadPic(files[0], uploadPathDB, "店铺：" + shop.getShopName());

@@ -2,9 +2,12 @@ package cn.hgxsp.hegangxsp;
 
 
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+
+import java.io.File;
 
 /**
  * DESC：
@@ -15,6 +18,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @Configuration
 public class MyWebAppConfigurer extends WebMvcConfigurerAdapter {
 
+
+    @Value("${upload.path}")
+    private String uploadPath ;
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -28,10 +34,7 @@ public class MyWebAppConfigurer extends WebMvcConfigurerAdapter {
                 .addResourceLocations(
                         "classpath:/META-INF/resources/" )
                 .addResourceLocations(
-                        "file:G:/JAVA/wxFilesForHGXSP/" );
+                        "file:"+uploadPath);
     }
-
-
-
 
 }

@@ -41,7 +41,7 @@ public class ShopController extends BaseController {
     /**
      * DESC:查询店铺名称是否重复 ，是否可用
      *
-     * @author hou.linan
+     * @author hou.linangetShopByShopId
      * @date: 2018/8/30 9:36
      * @param: [shopName]
      * @return: cn.hgxsp.hgxsp.utils.WXJSONResult
@@ -80,7 +80,6 @@ public class ShopController extends BaseController {
         if (StringUtils.isEmpty(userId)) {
             return WXJSONResult.errorMsg("传入的用户ID为空");
         }
-        System.out.println(userId + " === userId");
         User currUser = userService.findUserById(userId);
 
         if (StringUtils.isEmpty(currUser)) {
@@ -135,7 +134,7 @@ public class ShopController extends BaseController {
 
         //保存文件的命名空间
 
-        String uploadPathDB = "/" + currShopBossId + "/" + ShopId + "/ShopFace";
+        String uploadPathDB = "\\" + currShopBossId + "\\" + ShopId + "\\ShopFace";
         log.info("文件大小为：{}" + files.length);
         uploadPathDB = UploadUtils.uploadPic(files[0], uploadPathDB , "来源店铺:"+shop.getShopName());
 
@@ -181,7 +180,7 @@ public class ShopController extends BaseController {
     *@return:  cn.hgxsp.hgxsp.utils.WXJSONResult
     */
     @GetMapping("/getShopByShopId")
-    @Cacheable(cacheNames = "shop" , key = "#shopId" , unless = "#result.status != 200")
+//    @Cacheable(cacheNames = "shop" , key = "#shopId" , unless = "#result.status != 200")
     @ApiImplicitParam(name = "shopId", value = "店铺Id", required = true, dataType = "String", paramType = "query", defaultValue = "1809056F7KM61968")
     @ApiOperation(value = "通过店铺ID获取店铺信息", notes = "通过店铺ID获取店铺信息接口")
     public WXJSONResult getShopByShopId(String shopId) throws Exception{

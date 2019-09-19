@@ -1,5 +1,6 @@
 package cn.hgxsp.hegangxsp;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,13 +16,16 @@ import java.io.File;
  */
 @Configuration
 public class MultipartConfig {
+
+    @Value("${upload.tempPath}")
+    public String uploadTempPath ;
     /**
      * 文件上传临时路径
      */
     @Bean
     MultipartConfigElement multipartConfigElement() {
         MultipartConfigFactory factory = new MultipartConfigFactory();
-        String location = "e:/tmp";
+        String location = uploadTempPath;
         File tmpFile = new File(location);
         if (!tmpFile.exists()) {
             tmpFile.mkdirs();

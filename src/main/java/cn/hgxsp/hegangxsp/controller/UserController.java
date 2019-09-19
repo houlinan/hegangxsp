@@ -248,6 +248,7 @@ public class UserController extends BaseController {
      * @return: com.trs.wxnew.utils.WXJSONResult
      */
     @PostMapping("/uploadUserFace")
+    @CachePut(cacheNames = "user" , key = "#userId" , unless = "#result.status != 200")
     @ApiImplicitParam(name = "userId", value = "用户ID", required = true, dataType = "String", paramType = "query")
     @ApiOperation(value = "用户上传头像", notes = "用户上传头像接口")
     public WXJSONResult uploadUserFace(String userId,
@@ -258,13 +259,12 @@ public class UserController extends BaseController {
         }
 
         User user = userService.findUserById(userId);
-        System.out.println("userId == " + userId);
         if (ObjectUtils.isEmpty(user)) {
             return WXJSONResult.errorMsg("该用户不存在");
         }
 
 
-        String uploadPathDB = "/" + userId + "/face";
+        String uploadPathDB = "\\" + userId + "\\face";
 
         //上传图片
         uploadPathDB = UploadUtils.uploadPic(files[0], uploadPathDB, "@" + user.getUserName());

@@ -3,6 +3,7 @@ package cn.hgxsp.hegangxsp.controller;
 import cn.hgxsp.hegangxsp.ObjectVO.UserVO;
 import cn.hgxsp.hegangxsp.entity.User;
 import cn.hgxsp.hegangxsp.utils.RedisOperator;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,6 +17,7 @@ import java.util.UUID;
  * Time : 16:12
  */
 @RestController
+@Slf4j
 public class BaseController {
 
     @Autowired
@@ -26,7 +28,7 @@ public class BaseController {
     public static final String USER_REDIS_SESSION = "user-redis-session" ;
 
 
-    /**
+    /*
      *DESC: 想redis中添加用户的token
      *@author hou.linan
      *@date:  2018/8/22 16:21
@@ -43,7 +45,7 @@ public class BaseController {
         UserVO usersVO = new UserVO();
         BeanUtils.copyProperties(user, usersVO);
         usersVO.setUserToken(uniqueToken);
-
+        log.info("将用户【{}】 Token信息放入redis成功" , user.getUserName());
         return usersVO ;
     }
 

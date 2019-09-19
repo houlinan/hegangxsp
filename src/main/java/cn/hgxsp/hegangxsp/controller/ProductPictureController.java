@@ -61,9 +61,9 @@ public class ProductPictureController extends BaseController {
             return WXJSONResult.errorMsg("您没有传入图片，请重新上传");
         }
 
-        String uploadPathDB = "";
-        String shopBossName = "";
-        String shopName = "" ;
+        String uploadPathDB ;
+        String shopBossName ;
+        String shopName  ;
 
         if ("pro".equals(fromType)) {
             Product product = productService.findProductById(ObjectId);
@@ -88,8 +88,9 @@ public class ProductPictureController extends BaseController {
                 return WXJSONResult.errorMsg("没有找到商品所属店铺，请重新输入") ;
             }
 
-            uploadPathDB = "/" + userId + "/" + shopID + "/" +  ObjectId + "/ProductPic" ;
+            uploadPathDB = "\\" + userId + "\\" + shopID + "\\" +  ObjectId + "\\" + "ProductPic" ;
             //处理水印
+
             shopBossName = user.getUserName() ;
             shopName = shop.getShopName() ;
 
@@ -112,7 +113,7 @@ public class ProductPictureController extends BaseController {
                 return WXJSONResult.errorMsg("没有找到商品所属店铺，请重新输入") ;
             }
 
-            uploadPathDB = "/" + userId + "/" +  ObjectId + "/ShopPic" ;
+            uploadPathDB = "\\" + userId + "\\" +  ObjectId + "\\ShopPic" ;
             //处理水印
             shopBossName = user.getUserName() ;
             shopName = shop.getShopName() ;

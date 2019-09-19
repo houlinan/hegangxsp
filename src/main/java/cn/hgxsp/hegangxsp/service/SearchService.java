@@ -3,6 +3,7 @@ package cn.hgxsp.hegangxsp.service;
 
 
 import cn.hgxsp.hegangxsp.ObjectVO.ProductListVO;
+import cn.hgxsp.hegangxsp.ObjectVO.ShopVO;
 import cn.hgxsp.hegangxsp.entity.Shop;
 import org.springframework.data.domain.Page;
 
@@ -65,5 +66,15 @@ public interface SearchService {
     *@return:  org.springframework.data.domain.Page<cn.hgxsp.hgxsp.entity.Product>
     */
     Page<ProductListVO> findAllProductInShop(Integer index, Integer pageSize, Shop shop, String searchValue);
+
+
+    /**
+    *DESC:  获取所有店铺的分页
+    *@author hou.linan
+    *@date:  2018/9/19 16:01
+    *@param:  [index, pageSize, searchValue]
+    *@return:  org.springframework.data.domain.Page<cn.hgxsp.hegangxsp.ObjectVO.ShopVO>
+    */
+    Page<Shop> findAllShop(Integer index, Integer pageSize,  String searchValue) ;
 
 }

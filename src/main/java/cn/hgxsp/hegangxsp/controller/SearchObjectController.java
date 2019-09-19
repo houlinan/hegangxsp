@@ -2,14 +2,14 @@ package cn.hgxsp.hegangxsp.controller;
 
 import cn.hgxsp.hegangxsp.ObjectVO.ProductInfoVO;
 import cn.hgxsp.hegangxsp.ObjectVO.ProductListVO;
-import cn.hgxsp.hegangxsp.entity.Product;
-import cn.hgxsp.hegangxsp.entity.ProductPicture;
-import cn.hgxsp.hegangxsp.entity.Shop;
-import cn.hgxsp.hegangxsp.entity.User;
+import cn.hgxsp.hegangxsp.ObjectVO.ShopVO;
+import cn.hgxsp.hegangxsp.entity.*;
+import cn.hgxsp.hegangxsp.entity.jpaRepository.ObjectSearchRepository;
 import cn.hgxsp.hegangxsp.service.ProductPictureService;
 import cn.hgxsp.hegangxsp.service.ProductService;
 import cn.hgxsp.hegangxsp.service.SearchService;
 import cn.hgxsp.hegangxsp.service.ShopService;
+import cn.hgxsp.hegangxsp.utils.ObjectConvertVO;
 import cn.hgxsp.hegangxsp.utils.WXJSONResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -51,6 +51,9 @@ public class SearchObjectController extends BaseController {
 
     @Autowired
     private ProductService productService ;
+
+    @Autowired
+    private ObjectSearchRepository objectSearchRepository ;
 
     /**
      * DESC: 获取所有热搜关键词， 默认前十
@@ -221,6 +224,31 @@ public class SearchObjectController extends BaseController {
     }
 
 
+    @PostMapping("/getAllShopToPage")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "pageSize", value = "每页显示数目", required = false, defaultValue = "15", paramType = "query"),
+            @ApiImplicitParam(name = "pageIndex", value = "第几页", required = true, defaultValue = "1", paramType = "query"),
+            @ApiImplicitParam(name = "searchValue", value = "模糊查询关键字", required = false , defaultValue = "5", paramType = "query")
+    })
+    @ApiOperation(value = "获取全部店铺列表", notes = "获取所有店铺列表，并包含分页")
+    public WXJSONResult getAllShopToPage(@RequestParam(value = "pageSize" ,defaultValue = "5") Integer pageSize ,
+                                         @RequestParam(value ="pageIndex") Integer pageIndex,
+                                         @RequestParam(value = "searchValue" ,required = false)String searchValue){
 
 
+        Page<Shop> allShop = searchService.findAllShop(pageIndex, pageSize, searchValue);
+
+        return WXJSONResult.ok( ObjectConvertVO.pageShop2PageShoplistVO(allShop));
+    }
+
+
+    @GetMapping("/addSearchContent")
+    @ApiImplicitParam(name = "content" , value = "搜索内容" , required = true ,paramType = "query")
+    @ApiOperation(notes = "将搜索字段添加进数据库的接口" , value = "将搜索字段添加进数据库")
+    public void addSearchContent(String content) {
+        if(StringUtils.isEmpty(content)) return ;
+        ObjectSearch objectSearch = new ObjectSearch() ;
+        objectSearch.setContent(content);
+        objectSearchRepository.save(objectSearch) ;
+    }
 }

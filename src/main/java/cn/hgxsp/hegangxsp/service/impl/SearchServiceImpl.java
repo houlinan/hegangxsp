@@ -2,10 +2,13 @@ package cn.hgxsp.hegangxsp.service.impl;
 
 
 import cn.hgxsp.hegangxsp.ObjectVO.ProductListVO;
+import cn.hgxsp.hegangxsp.ObjectVO.ShopVO;
 import cn.hgxsp.hegangxsp.entity.Product;
 import cn.hgxsp.hegangxsp.entity.Shop;
 import cn.hgxsp.hegangxsp.entity.jpaRepository.ProductRepository;
+import cn.hgxsp.hegangxsp.entity.jpaRepository.ShopRepository;
 import cn.hgxsp.hegangxsp.service.SearchService;
+import cn.hgxsp.hegangxsp.utils.ObjectConvertVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,15 +18,18 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
+
 
 /**
  * DESC：搜索service层实现类
@@ -35,11 +41,15 @@ import java.util.List;
 @Slf4j
 public class SearchServiceImpl implements SearchService {
 
-//    @Autowired
-//    private EntityManager entityManager;
+    @Autowired
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private ShopRepository shopRepository;
 
 
     private PageRequest page = null;
@@ -105,20 +115,36 @@ public class SearchServiceImpl implements SearchService {
             return null;
         };
 
-        Page<Product> products = productRepository.findAll(specification, page) ;
+        return pageProduct2PageProductListVo(productRepository.findAll(specification, page));
+    }
 
+    @Override
+    public Page<Shop> findAllShop(Integer index, Integer pageSize, String searchValue) {
+        Sort sort = new Sort(Sort.Direction.DESC, "createTime");
+        PageRequest page = new PageRequest(index-1, pageSize, sort);
+        if(StringUtils.isEmpty(searchValue)){
+            return shopRepository.findAll(page);
+        }
+        Specification<Shop> specification = (Specification<Shop>) (Root<Shop> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) -> {
+            List<Predicate> list = new ArrayList<>();
+           list.add(criteriaBuilder.like(root.get("shopName").as(String.class) , "%"+searchValue+"%"));
 
-        return pageProduct2PageProductListVo(products);
+            Predicate[] p = new Predicate[list.size()];
+            criteriaQuery.where(list.toArray(p));
+
+            return null;
+        };
+        return  shopRepository.findAll(specification ,page) ;
+
     }
 
 
     @Override
     public List<String> getHot() {
-//        String sql = "Select content from objectsearch group by content order by count(content) desc limit 0, 10";
-////        Query nativeQuery = entityManager.createNativeQuery(sql);
-////        List<String> resultList = nativeQuery.getResultList();
-////        return resultList;
-        return null ;
+        String sql = "Select content from objectsearch group by content order by count(content) desc limit 0, 10";
+        Query nativeQuery = entityManager.createNativeQuery(sql);
+        List<String> resultList = nativeQuery.getResultList();
+        return resultList;
     }
 
     /**
@@ -144,6 +170,13 @@ public class SearchServiceImpl implements SearchService {
 
         return new PageImpl<>(productListVOS, page, result.getTotalElements());
     }
+
+
+
+
+
+
+
 
 
 
